@@ -38,22 +38,14 @@ export const projectsResponse = {
 }
 
 export function updateProjectById(id, updatedProject) {
-  console.log('id', id)
-  console.log('updatedProject.id', updatedProject.id)
-
   const index = projects.findIndex(project => project.id === id);
-  console.log(index)
   if (index !== -1) {
     projects[index] = { ...projects[index], ...updatedProject };
-    console.log('updateProjectById in if', projects)
   }
-
-  console.log('updateProjectById after if', projects)
-
 }
 
 export function findProjectById(id) {
-  return projects.find(project => project.id === id);
+  return projects.find(project => project.id === Number(id));
 }
 
 export function deleteById(id) {
@@ -71,26 +63,15 @@ export function addProject(project) {
 }
 
 export function filterProjects(filter) {
-  console.log('FILTER PAGE', filter.page)
-  console.log('FILTER NAME', filter.name)
-  console.log('FILTER DESCRIPTION', filter.description)
   const startIndex = filter.page * filter.projectsPerPage;
   const endIndex = startIndex + filter.projectsPerPage;
-
-    console.log('START_INDEX', startIndex)
-    console.log('END_INDEX', endIndex)
-
   const filteredProjects = getFilteredProjects(filter);
-
   const projectsForPage = filteredProjects.slice(startIndex, endIndex);
-
-  console.log('PROJECTS_FOR_PAGE', projectsForPage)
 
   return projectsForPage;
 }
 
 export function getFilteredProjects(filter) {
-  console.log('FILTER', filter)
   return projects.filter(project =>
       project.name.toLowerCase().includes(filter.name.toLowerCase()) &&
       project.description.toLowerCase().includes(filter.description.toLowerCase())

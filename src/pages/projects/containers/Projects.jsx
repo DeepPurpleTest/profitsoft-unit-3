@@ -53,6 +53,18 @@ const getClasses = createUseStyles((theme) => ({
         right: '5px !important',
         transition: 'opacity 0.3s ease',
     },
+    filter: {
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-between',
+    },
+    create: {
+        textAlign: 'right',
+    },
+    dialog: {
+        textAlign: 'center',
+    }
 }));
 
 const link = `${pagesURLs[pages.projectPage]}`;
@@ -105,12 +117,18 @@ function Projects() {
     return (
         <Typography>
             <div className={classes.container}>
-                <Link to={{
-                    pathname: link,
-                }}>
-                    <Button>{formatMessage({id: 'btn.create'})}</Button>
-                </Link>
-                <Filter projectsPerPage={projectsPerPage}/>
+                <div className={classes.filter}>
+                    <div>
+                    <Filter projectsPerPage={projectsPerPage}/>
+                    </div>
+                    <div className={classes.create}>
+                        <Link to={{
+                            pathname: link,
+                        }}>
+                            <Button>{formatMessage({id: 'btn.create'})}</Button>
+                        </Link>
+                    </div>
+                </div>
                 {isFetchingProjects && <div>Loading....</div>}
                 {!isFetchingProjects && (
 
@@ -123,7 +141,8 @@ function Projects() {
                             {projects?.map(project =>
                                 (
                                     <div
-                                        key={project.id} className={classes.projectBox}
+                                        key={project.id}
+                                        className={classes.projectBox}
                                         onMouseEnter={() => setIsHovered({
                                             projectHoverId: project.id
                                         })}
@@ -144,17 +163,21 @@ function Projects() {
                                                 </div>
                                             </Box>
                                         </Link>
-                                        <Dialog open={state.projectActionId === project.id} onClose={() => {
+                                        <Dialog
+                                            open={state.projectActionId === project.id}
+                                            onClose={() => {
                                             setState({
                                                 projectActionId: null,
                                             });
                                             dispatch(actionsProjects.dropErrors())
                                         }}>
-                                            <Card>
-                                                <p>
-                                                    {isFailedDelete ? errorWhileDelete.message : formatMessage({id: 'dialog.text'})}
-                                                </p>
-                                            </Card>
+                                            <div className={classes.dialog}>
+                                                <Card>
+                                                    <p>
+                                                        {isFailedDelete ? errorWhileDelete.message : formatMessage({id: 'dialog.text'})}
+                                                    </p>
+                                                </Card>
+                                            </div>
                                             <Button onClick={() => {
                                                 dispatch(actionsProjects.fetchDeleteProject(state.projectActionId, {
                                                     name: filterParams.get(filterSearch.name),
@@ -168,7 +191,6 @@ function Projects() {
                                                 }))
                                             }}>Delete</Button>
                                         </Dialog>
-                                        {/**/}
                                         {isHovered.projectHoverId === project.id && (
                                             <div className={classes.deleteIcon}>
                                                 <IconButton

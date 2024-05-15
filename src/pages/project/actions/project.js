@@ -12,7 +12,7 @@ import {
     SUCCESS_RECEIVE,
     SUCCESS_UPDATE
 } from "../constants/actionType";
-import {addProject, findProjectById, projectsResponse as data, updateProjectById} from "../../projects/data";
+import {addProject, findProjectById, updateProjectById} from "../../projects/data";
 
 const receiveProject = (project) => ({
     payload: project,
@@ -106,9 +106,9 @@ const fetchUpdate = (project) => (dispatch) => {
     return putProject(project)
         .catch((err) => {
             updateProjectById(project.id, project)
-            console.log(data.projects)
             return project;
 
+            // Uncomment if need produce server exception
             // return Promise.reject(new Error('Error while updating project with id ' + project.id));
         })
         .then((project) => {
@@ -126,6 +126,7 @@ const fetchCreate = (project) => (dispatch) => {
             const createdProject = addProject(project)
             return createdProject;
 
+            // Uncomment if need produce server exception
             // return Promise.reject(new Error('Error while creating project'));
         })
         .then((project) => {

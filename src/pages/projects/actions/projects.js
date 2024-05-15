@@ -84,6 +84,7 @@ const fetchDeleteProject = (id, filter) => (dispatch) => {
                 page: filter.page,
                 isFiltering: filter.isFiltering,
             };
+            // Uncomment if need produce server exception
             // return Promise.reject(new Error('Error while delete project with id ' + id));
         })
         .then(projects => {

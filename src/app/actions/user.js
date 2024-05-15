@@ -74,8 +74,6 @@ const requestSignOut = () => ({
 });
 
 const getUser = () => {
-  console.log('getUser')
-
   const {
     USERS_SERVICE,
   } = config;
@@ -180,8 +178,6 @@ const fetchSignUp = ({
 };
 
 const fetchUser = () => (dispatch) => {
-  console.log('fetchUser')
-
   if (!storage.getItem(keys.TOKEN)) {
     return null;
   }
@@ -189,15 +185,13 @@ const fetchUser = () => (dispatch) => {
   return getUser()
     // TODO Mocked '.catch()' section
     .catch((err) => {
-      console.log('user catch section')
-
       const user = storage.getItem('USER');
-      console.log(user)
 
       if (user) {
         const parsedUser = JSON.parse(user);
         return parsedUser;
       }
+
       return Promise.reject(err);
     })
     .then(user => dispatch(receiveUser(user)))

@@ -14,12 +14,39 @@ import ProjectForm from "../components/ProjectForm";
 import useChangePage from "../../../misc/hooks/useChangePage";
 import IconButton from "../../../components/IconButton";
 import Edit from "../../../components/icons/Edit";
+import {createUseStyles} from "react-jss";
+import useTheme from "../../../misc/hooks/useTheme";
+import {findProjectById} from "../../projects/data";
 
 
 const link = `${pagesURLs[pages.projectsPage]}`;
+const getClasses = createUseStyles((theme) => ({
+    back: {
+        textAlign: 'center',
+        marginTop: '20px',
+    },
+    title: {
+        marginBottom: '35px',
+    },
+    details: {
+        position: 'relative',
+        textAlign: 'center',
+        border: '2px solid #ccc',
+        borderRadius: '15px',
+        width: '50%',
+        margin: '0 auto',
+    },
+    edit: {
+        position: 'absolute',
+        top: '0px',
+        right: '0px',
+    },
+}));
 
 function Project() {
     const dispatch = useDispatch();
+    const {theme} = useTheme();
+    const classes = getClasses({theme});
     let {projectId} = useParams();
     const {formatMessage} = useIntl();
     const changePage = useChangePage();
@@ -31,7 +58,6 @@ function Project() {
         description,
         members,
         error,
-        errors,
         isFailedUpdate,
         isFailedCreate,
         isSuccessCreate,
@@ -61,6 +87,15 @@ function Project() {
 
     useEffect(() => {
         if (projectId) {
+            const projectById = findProjectById(projectId);
+            if (!projectById) {
+                changePage({
+                    pathname: `${pageURLs[pages.projectsPage]}`,
+                    replace: true,
+                });
+                return;
+            }
+
             dispatch(actionsProject.fetchProject(projectId))
         } else {
             setEditMode(true);
@@ -73,8 +108,10 @@ function Project() {
 
     return (
         <Typography>
-            {!editMode && <div>{formatMessage({id: 'title.details'})}</div>}
-            {editMode && <div>{formatMessage({id: 'title.editing'})}</div>}
+            <div className={classes.title}>
+                <h2>{!editMode && formatMessage({id: 'title.details'})}
+                    {editMode && formatMessage({id: 'title.editing'})}</h2>
+            </div>
 
             {isFailedUpdate && notifyError(error.message, () => {
                 dispatch(actionsProject.dropErrors())
@@ -87,7 +124,8 @@ function Project() {
             {isSuccessCreate && notifySuccess('Project created!', () => {
                 setEditMode(false);
                 changePage({
-                    pathname: `${pageURLs[pages.projectPage]}/` + id},
+                        pathname: `${pageURLs[pages.projectPage]}/` + id
+                    },
                 )
                 dispatch(actionsProject.dropSuccess())
 
@@ -98,22 +136,28 @@ function Project() {
                 dispatch(actionsProject.dropSuccess())
             })}
 
-            {!!projectId && (editMode ? (<ProjectForm isFailedCreate={isFailedCreate} errors={errors} cancelUpdate={() => setEditMode(false)}/>) : (
-                    <>
-                        <div>
+            {!!projectId && (editMode ? (<ProjectForm cancelUpdate={() => setEditMode(false)}/>) : (
+                    <div>
+                        <div className={classes.details}>
                             <p>{formatMessage({id: 'project.name'}) + ': ' + name}</p>
                             <p>{formatMessage({id: 'project.description'}) + ': ' + description}</p>
                             <p>{formatMessage({id: 'project.members'}) + ': ' + members.join(', ')}</p>
+
+                            <div className={classes.edit}>
+                                <IconButton onClick={() => {
+                                    setEditMode(true);
+                                }}><Edit/></IconButton>
+                            </div>
                         </div>
-                        <IconButton onClick={() => {
-                            setEditMode(true);
-                        }}><Edit/></IconButton>
-                        <Link to={{
-                            pathname: link,
-                        }}>
-                            <Button>{formatMessage({id: 'btn.back'})}</Button>
-                        </Link>
-                    </>)
+
+                        <div className={classes.back}>
+                            <Link to={{
+                                pathname: link,
+                            }}>
+                                <Button>{formatMessage({id: 'btn.back'})}</Button>
+                            </Link>
+                        </div>
+                    </div>)
             )}
 
             {!projectId && (<ProjectForm name={name} description={description}/>)}

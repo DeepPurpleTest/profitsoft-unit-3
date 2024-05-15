@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-// import Button from "../../../components/Button";
 import {useDispatch, useSelector} from "react-redux";
 import actionsProject from "../actions/project";
 import Link from "../../../components/Link";
@@ -19,6 +18,10 @@ const getClasses = createUseStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         gap: `${theme.spacing(2)}px`,
+    },
+    create: {
+        width: '100% !important',
+        textAlign: 'center',
     },
 }));
 
@@ -108,6 +111,7 @@ function ProjectForm({cancelUpdate}) {
                             });
                         }}>{formatMessage({id: 'btn.save'})}</Button>}
                 {!project.id &&
+
                     <Button
                         onClick={() => {
                             const validationErrors = getValidationErrors();
@@ -119,18 +123,25 @@ function ProjectForm({cancelUpdate}) {
                                 ...state,
                                 validationErrors: validationErrors,
                             });
-                        }}>{formatMessage({id: 'btn.create'})}</Button>}
-
+                        }}>{formatMessage({id: 'btn.create'})}</Button>
+                }
                 {project.id &&
                     <Button onClick={() => {
                         cancelUpdate()
                     }}>{formatMessage({id: 'btn.cancel'})}</Button>}
 
-                {!project.id && <Link to={{
-                    pathname: link,
-                }}>
-                    <Button>{formatMessage({id: 'btn.cancel'})}</Button>
-                </Link>}
+                {!project.id &&
+                    <div className={classes.create}>
+                        <Link to={{
+                            pathname: link,
+                        }}>
+                            <Button>
+                                {formatMessage({id: 'btn.cancel'})}
+                            </Button>
+
+                    </Link>
+                    </div>}
+
             </div>
         </CardContent>
     )

@@ -20,7 +20,6 @@ const initialState = {
 export default function Reducer(state = initialState, action) {
     switch (action.type) {
         case ERROR_DELETE: {
-            console.log('case ERROR_DELETE:')
             return {
                 ...state,
                 errorWhileDelete: action.payload,
@@ -46,8 +45,6 @@ export default function Reducer(state = initialState, action) {
 
         case SUCCESS_RECEIVE: {
             const projects = action.payload;
-            console.log('SUCCESS_RECEIVE', projects)
-
             return {
                 ...state,
                 projects: projects.projects || initialState.projects,
@@ -57,8 +54,6 @@ export default function Reducer(state = initialState, action) {
 
         case SUCCESS_DELETE: {
             const projects = action.payload;
-            console.log('SUCCESS_DELETE', projects)
-
             return {
                 ...state,
                 projects: projects.projects || initialState.projects,
