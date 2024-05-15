@@ -1,55 +1,55 @@
 export const projects = [
   {
-    id: 1,
-    name: 'Project 1',
     description: 'Project 1 description',
+    id: 1,
     members: ['Moksem', 'Vodem'],
+    name: 'Project 1',
   },
   {
-    id: 2,
-    name: 'Project 2',
     description: 'Project 2 description',
+    id: 2,
     members: ['Maus', 'Denchik'],
+    name: 'Project 2',
   },
   {
-    id: 3,
-    name: 'Project 3',
     description: 'Project 3 description',
+    id: 3,
     members: ['Moksem', 'Denchik'],
+    name: 'Project 3',
   },
   {
-    id: 4,
-    name: 'Project 4',
     description: 'Project 4 description',
+    id: 4,
     members: ['Maus', 'Vodem'],
+    name: 'Project 4',
   },
   {
-    id: 5,
-    name: 'Project 5',
     description: 'Project 5 description',
+    id: 5,
     members: ['Maus', 'Vodem'],
+    name: 'Project 5',
   },
-]
+];
 
 export const projectsResponse = {
-  projects: projects,
   page: 0,
+  projects: projects,
   totalPages: 5,
-}
+};
 
 export function updateProjectById(id, updatedProject) {
-  const index = projects.findIndex(project => project.id === id);
+  const index = projects.findIndex((project) => project.id === id);
   if (index !== -1) {
     projects[index] = { ...projects[index], ...updatedProject };
   }
 }
 
 export function findProjectById(id) {
-  return projects.find(project => project.id === Number(id));
+  return projects.find((project) => project.id === Number(id));
 }
 
 export function deleteById(id) {
-  const index = projects.findIndex(project => project.id === id);
+  const index = projects.findIndex((project) => project.id === id);
   if (index !== -1) {
     projects.splice(index, 1);
   }
@@ -72,9 +72,12 @@ export function filterProjects(filter) {
 }
 
 export function getFilteredProjects(filter) {
-  return projects.filter(project =>
+  return projects.filter(
+    (project) =>
       project.name.toLowerCase().includes(filter.name.toLowerCase()) &&
-      project.description.toLowerCase().includes(filter.description.toLowerCase())
+      project.description
+        .toLowerCase()
+        .includes(filter.description.toLowerCase())
   );
 }
 
@@ -85,4 +88,3 @@ export function getTotalPages(projectsPerPage) {
 export function getTotalFilteredPages(projectsPerPage, filter) {
   return Math.ceil(getFilteredProjects(filter).length / projectsPerPage);
 }
-
