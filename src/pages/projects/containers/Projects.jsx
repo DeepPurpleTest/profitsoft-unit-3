@@ -192,8 +192,7 @@ function Projects() {
                       onClick={() => {
                         dispatch(
                           actionsProjects.fetchDeleteProject(
-                            state.projectActionId,
-                            {
+                            state.projectActionId, {
                               description: filterParams.get(
                                 filterSearch.description
                               ),
@@ -206,6 +205,9 @@ function Projects() {
                         setFilterParams((prev) => ({
                           ...prev,
                           page: 0,
+                          lang: filterParams.get(filterSearch.lang),
+                          name: filterParams.get(filterSearch.name),
+                          description: filterParams.get(filterSearch.description),
                         }));
                       }}
                     >
@@ -239,6 +241,9 @@ function Projects() {
               setFilterParams((prev) => ({
                 ...prev,
                 page: currentPage - 1,
+                lang: filterParams.get(filterSearch.lang),
+                name: filterParams.get(filterSearch.name),
+                description: filterParams.get(filterSearch.description),
               }));
             }}
           >
@@ -258,6 +263,9 @@ function Projects() {
               setFilterParams((prev) => ({
                 ...prev,
                 page: currentPage + 1,
+                lang: filterParams.get(filterSearch.lang),
+                name: filterParams.get(filterSearch.name),
+                description: filterParams.get(filterSearch.description),
               }));
             }}
           >
