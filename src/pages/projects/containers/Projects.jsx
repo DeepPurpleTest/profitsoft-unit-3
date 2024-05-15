@@ -41,15 +41,16 @@ const getClasses = createUseStyles((theme) => ({
         borderRadius: '4px',
         padding: '4px',
         marginBottom: '4px',
-        width: '400px',
-    },
-    project: {
         width: '100%',
     },
+    project: {
+        paddingLeft: '10px',
+        textAlign: 'left',
+        width: '300px',
+    },
     deleteIcon: {
-        position: 'absolute',
-        top: '5px',
-        right: '5px',
+        position: 'absolute !important',
+        right: '5px !important',
         transition: 'opacity 0.3s ease',
     },
 }));
@@ -112,6 +113,7 @@ function Projects() {
                 <Filter projectsPerPage={projectsPerPage}/>
                 {isFetchingProjects && <div>Loading....</div>}
                 {!isFetchingProjects && (
+
                     <section>
                         {isSuccessDelete && notifySuccess(formatMessage({id: 'delete.success'}) + state.projectActionId, () => {
                             dispatch(actionsProjects.dropSuccess());
@@ -120,25 +122,28 @@ function Projects() {
                         <ul>
                             {projects?.map(project =>
                                 (
-                                    <Box
-                                        className={classes.projectBox}
-                                        key={project.id} onMouseEnter={() => setIsHovered({
-                                        projectHoverId: project.id
-                                    })}
+                                    <div
+                                        key={project.id} className={classes.projectBox}
+                                        onMouseEnter={() => setIsHovered({
+                                            projectHoverId: project.id
+                                        })}
                                         onMouseLeave={() => setIsHovered({
                                             projectHoverId: null
-                                        })} sx={{display: 'flex', alignItems: 'center'}}>
-                                        <Link to={{
-                                            pathname: link + '/' + project.id
-                                        }}>
-                                            <div className={classes.project}>
-                                                <h2>
-                                                    {project.name}
-                                                </h2>
-                                                <p>{project.description}</p>
-                                            </div>
+                                        })}>
+                                        <Link
+                                            className={classes.projectLink}
+                                            to={{
+                                                pathname: link + '/' + project.id
+                                            }}>
+                                            <Box sx={{display: 'flex', alignItems: 'center'}}>
+                                                <div className={classes.project}>
+                                                    <h2>
+                                                        {project.name}
+                                                    </h2>
+                                                    <p>{project.description}</p>
+                                                </div>
+                                            </Box>
                                         </Link>
-
                                         <Dialog open={state.projectActionId === project.id} onClose={() => {
                                             setState({
                                                 projectActionId: null,
@@ -163,16 +168,18 @@ function Projects() {
                                                 }))
                                             }}>Delete</Button>
                                         </Dialog>
-
-                                        <Box sx={{maxHeight: '50px'}}>
-                                            {isHovered.projectHoverId === project.id && (
-                                                <IconButton className={classes.deleteIcon} onClick={() => {
-                                                    setState({
-                                                        projectActionId: project.id
-                                                    })
-                                                }}><Delete/></IconButton>)}
-                                        </Box>
-                                    </Box>
+                                        {/**/}
+                                        {isHovered.projectHoverId === project.id && (
+                                            <div className={classes.deleteIcon}>
+                                                <IconButton
+                                                    onClick={() => {
+                                                        setState({
+                                                            projectActionId: project.id
+                                                        })
+                                                    }}><Delete/></IconButton>
+                                            </div>)
+                                        }
+                                    </div>
                                 )
                             )}
                         </ul>
