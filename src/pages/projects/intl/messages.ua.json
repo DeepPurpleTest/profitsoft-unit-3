@@ -1,13 +1,10 @@
 {
   "title": "Сторiнка проектiв",
-
   "btn.filtrate": "Фiльтрувати",
   "btn.create": "Створити",
-
+  "btn.delete": "Видалити",
   "delete.successfully": "Проект успiшно видалено з айдi: ",
-
   "dialog.text": "Ви впевненi що хочете видали проект?",
-
   "filter.name": "Фiльтрувати за iм`ям",
   "filter.description": "Фiльтрувати за описом"
 }

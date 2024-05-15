@@ -123,7 +123,7 @@ function Project() {
         })}
 
       {isSuccessCreate &&
-        notifySuccess('Project created!', () => {
+        notifySuccess(formatMessage({id: 'success.created'}), () => {
           setEditMode(false);
           changePage({
             pathname: `${pagesURLs[pages.projectPage]}/` + id,
@@ -132,7 +132,7 @@ function Project() {
         })}
 
       {isSuccessUpdate &&
-        notifySuccess('Project updated!', () => {
+        notifySuccess(formatMessage({id: 'success.updated'}), () => {
           setEditMode(false);
           dispatch(actionsProject.dropSuccess());
         })}

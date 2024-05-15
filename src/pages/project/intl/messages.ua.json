@@ -5,14 +5,13 @@
   "project.description": "Опис",
   "project.members": "Учасники",
   "btn.back": "Повернутися",
-
   "field.name": "Назва проекту",
   "field.description": "Опис проекту",
   "btn.cancel": "Скасувати",
-
   "create.error.EMPTY_NAME": "Назва обов`язкова",
   "create.error.EMPTY_DESCRIPTION": "Опис обов`язковий",
-
+  "success.created": "Проект успiшно створено!",
+  "success.updated": "Проект успiшно оновлено!",
   "btn.save": "Зберегти",
   "btn.create": "Створити"
 }

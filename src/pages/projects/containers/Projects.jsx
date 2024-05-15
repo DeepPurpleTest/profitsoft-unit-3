@@ -52,7 +52,7 @@ const getClasses = createUseStyles((theme) => ({
   project: {
     paddingLeft: '10px',
     textAlign: 'left',
-    width: '300px',
+    width: '650px',
   },
   projectBox: {
     alignItems: 'center',
@@ -157,7 +157,6 @@ function Projects() {
                     })
                   }
                 >
-                  >
                   <Link
                     className={classes.projectLink}
                     to={{
@@ -210,7 +209,7 @@ function Projects() {
                         }));
                       }}
                     >
-                      Delete
+                      {formatMessage({id: 'btn.delete'})}
                     </Button>
                   </Dialog>
                   {isHovered.projectHoverId === project.id && (
