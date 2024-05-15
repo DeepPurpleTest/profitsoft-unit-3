@@ -1,35 +1,36 @@
 export const projects = [
   {
-    description: 'Project 1 description',
     id: 1,
-    members: ['Moksem', 'Vodem'],
-    name: 'Project 1',
+    description: 'Creating a house that spins upside down to live on the ceiling',
+    members: ['John Smith', 'Emily Johnson'],
+    name: 'Upside-Down Living Project'
   },
   {
-    description: 'Project 2 description',
     id: 2,
-    members: ['Maus', 'Denchik'],
-    name: 'Project 2',
+    description: 'Developing a device for automatically pinching oneself to stay awake at work',
+    members: ['Michael Brown', 'Sarah Clark'],
+    name: 'Stay-Awake Gadget Project'
   },
   {
-    description: 'Project 3 description',
     id: 3,
-    members: ['Moksem', 'Denchik'],
-    name: 'Project 3',
+    description: 'Researching the feasibility of teaching fish to ride bicycles',
+    members: ['Andrew Taylor', 'Sophia Anderson'],
+    name: 'Fish Cycling Initiative'
   },
   {
-    description: 'Project 4 description',
     id: 4,
-    members: ['Maus', 'Vodem'],
-    name: 'Project 4',
+    description: 'Creating a device to translate thoughts into music',
+    members: ['David Wilson', 'Emma Roberts'],
+    name: 'Mind-Music Translator Project'
   },
   {
-    description: 'Project 5 description',
     id: 5,
-    members: ['Maus', 'Vodem'],
-    name: 'Project 5',
-  },
+    description: 'Developing a spring-loaded suit for rapid upward movement on stairs',
+    members: ['Oliver White', 'Isabella Green'],
+    name: 'Staircase Cheetah Project'
+  }
 ];
+
 
 export const projectsResponse = {
   page: 0,
