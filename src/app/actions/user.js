@@ -74,10 +74,12 @@ const requestSignOut = () => ({
 });
 
 const getUser = () => {
+  console.log('getUser')
+
   const {
     USERS_SERVICE,
   } = config;
-  return axios.get(`${USERS_SERVICE}/user/get`);
+  return axios.get(`${USERS_SERVICE}/user/get`, { timeout: 10 });
 };
 
 const signIn = ({
@@ -95,7 +97,7 @@ const signIn = ({
       login,
       password,
     },
-  );
+      { timeout: 10 });
 };
 
 const signUp = ({
@@ -117,7 +119,7 @@ const signUp = ({
       login,
       password,
     },
-  );
+      { timeout: 10 });
 };
 
 const fetchRefreshToken = () => (dispatch) => {
@@ -178,6 +180,8 @@ const fetchSignUp = ({
 };
 
 const fetchUser = () => (dispatch) => {
+  console.log('fetchUser')
+
   if (!storage.getItem(keys.TOKEN)) {
     return null;
   }
@@ -185,7 +189,11 @@ const fetchUser = () => (dispatch) => {
   return getUser()
     // TODO Mocked '.catch()' section
     .catch((err) => {
+      console.log('user catch section')
+
       const user = storage.getItem('USER');
+      console.log(user)
+
       if (user) {
         const parsedUser = JSON.parse(user);
         return parsedUser;

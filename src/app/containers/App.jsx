@@ -1,17 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from 'react-router-dom';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
-import { addAxiosInterceptors } from 'misc/requests';
+import {BrowserRouter, Route, Routes,} from 'react-router-dom';
+import {useDispatch, useSelector,} from 'react-redux';
+import {addAxiosInterceptors} from 'misc/requests';
 import * as pages from 'constants/pages';
 import AuthoritiesProvider from 'misc/providers/AuthoritiesProvider';
-import DefaultPage from 'pageProviders/Default';
+import ProjectsPage from 'pageProviders/Projects';
+import ProjectPage from 'pageProviders/Project';
 import Loading from 'components/Loading';
 import LoginPage from 'pageProviders/Login';
 import PageContainer from 'pageProviders/components/PageContainer';
@@ -25,6 +19,8 @@ import Header from '../components/Header';
 import IntlProvider from '../components/IntlProvider';
 import MissedPage from '../components/MissedPage';
 import SearchParamsConfigurator from '../components/SearchParamsConfigurator';
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const dispatch = useDispatch();
@@ -72,8 +68,16 @@ function App() {
                 {!isFetchingUser && (
                   <Routes>
                     <Route
-                      element={<DefaultPage />}
-                      path={`${pageURLs[pages.defaultPage]}`}
+                      element={<ProjectsPage />}
+                      path={`${pageURLs[pages.projectsPage]}`}
+                    />
+                    <Route
+                        element={<ProjectPage />}
+                        path={`${pageURLs[pages.projectPage]}`}
+                    />
+                    <Route
+                        element={<ProjectPage />}
+                        path={`${pageURLs[pages.projectPage]}/:projectId`}
                     />
                     <Route
                       element={<SecretPage />}
@@ -116,13 +120,14 @@ function App() {
                     <Route
                       element={(
                         <MissedPage
-                          redirectPage={`${pageURLs[pages.defaultPage]}`}
+                          redirectPage={`${pageURLs[pages.projectsPage]}`}
                         />
                       )}
                       path="*"
                     />
                   </Routes>
                 )}
+                <ToastContainer />
               </IntlProvider>
             )}
           </BrowserRouter>

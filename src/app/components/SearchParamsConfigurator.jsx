@@ -2,12 +2,15 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import languages, { DEFAULT_LANGUAGE } from 'misc/constants/languages';
 
-const locationSearch = {
+const paramsSearch = {
   lang: 'lang',
+  page: 'page',
+  name: 'name',
+  description: 'description',
 };
 
 export const DEFAULT_LOCATION_SEARCH = {
-  [locationSearch.lang]: DEFAULT_LANGUAGE,
+  [paramsSearch.lang]: DEFAULT_LANGUAGE,
 };
 
 function SearchParamsConfigurator() {
@@ -15,15 +18,33 @@ function SearchParamsConfigurator() {
 
   useEffect(() => {
     let isSearchParamsUpdated = false;
-    if (!searchParams.has(locationSearch.lang)
+    let updatedParams = new URLSearchParams(searchParams);
+
+    if (!updatedParams.has(paramsSearch.lang)
       || !Object.values(languages)
-        .includes(searchParams.get(locationSearch.lang) || '')
+        .includes(updatedParams.get(paramsSearch.lang) || '')
     ) {
-      searchParams.set(locationSearch.lang, DEFAULT_LANGUAGE);
+      updatedParams.set(paramsSearch.lang, DEFAULT_LANGUAGE);
       isSearchParamsUpdated = true;
     }
+
+    if (!updatedParams.has(paramsSearch.page)) {
+      updatedParams.set(paramsSearch.page, '0');
+      isSearchParamsUpdated = true;
+    }
+
+    if (!updatedParams.has(paramsSearch.name)) {
+      updatedParams.set(paramsSearch.name, '');
+      isSearchParamsUpdated = true;
+    }
+
+    if (!updatedParams.has(paramsSearch.description)) {
+      updatedParams.set(paramsSearch.description, '');
+      isSearchParamsUpdated = true;
+    }
+
     if (isSearchParamsUpdated) {
-      setSearchParams(searchParams, { replace: true });
+      setSearchParams(updatedParams, { replace: true });
     }
   }, [searchParams]);
 }

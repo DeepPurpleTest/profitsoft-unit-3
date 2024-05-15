@@ -1,0 +1,12 @@
+// Projects
+export const REQUEST_PROJECTS = 'REQUEST_PROJECTS';
+export const REQUEST_DELETE = 'REQUEST_DELETE';
+export const RECEIVE_PROJECTS = 'RECEIVE_PROJECTS';
+export const DELETE_PROJECT = 'DELETE_PROJECT';
+
+export const SUCCESS_RECEIVE = 'SUCCESS_RECEIVE';
+export const SUCCESS_DELETE = 'SUCCESS_DELETE';
+
+export const ERROR_DELETE = 'ERROR_DELETE';
+export const DROP_ERRORS = 'DROP_ERRORS';
+

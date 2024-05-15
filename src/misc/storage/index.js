@@ -13,6 +13,7 @@ const setItem = (key, value) => {
 export const keys = {
   TOKEN: 'TOKEN',
   TOKEN_EXPIRATION: 'TOKEN_EXP',
+  PROJECTS: 'PROJECTS',
 };
 
 const forExport = {

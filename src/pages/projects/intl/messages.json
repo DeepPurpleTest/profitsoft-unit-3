@@ -1,0 +1,13 @@
+{
+  "title": "Projects page",
+
+  "btn.filtrate": "Filtrate",
+  "btn.create": "Create",
+
+  "delete.successfully": "Successfully delete project with id: ",
+
+  "dialog.text": "Are you sure you want to delete the project?",
+
+  "filter.name": "Filter by name",
+  "filter.description": "Filter by description"
+}
