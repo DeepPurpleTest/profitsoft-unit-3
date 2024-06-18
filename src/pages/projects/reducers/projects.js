@@ -15,6 +15,7 @@ const initialState = {
   isFetchingProjects: false,
   isSuccessDelete: false,
   projects: [],
+  totalPages: 1,
 };
 
 export default function Reducer(state = initialState, action) {
@@ -44,11 +45,13 @@ export default function Reducer(state = initialState, action) {
     }
 
     case SUCCESS_RECEIVE: {
-      const projects = action.payload;
+      const response = action.payload;
+
       return {
         ...state,
         isFetchingProjects: false,
-        projects: projects.projects || initialState.projects,
+        projects: response.projects || initialState.projects,
+        totalPages: response.total_pages || initialState.totalPages,
       };
     }
 

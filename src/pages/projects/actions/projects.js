@@ -42,9 +42,21 @@ const dropSuccess = () => ({
   type: DROP_SUCCESS,
 });
 
-const getProjects = () => {
+const getProjects = (filter) => {
+  const postData = {
+    offset: filter.page * filter.projectsPerPage,
+    pageSize: filter.projectsPerPage,
+  };
+
+  if (filter.name !== undefined && filter.name !== null && filter.name !== '') {
+    postData.project_name = filter.name;
+  }
+
   const { PROJECTS_SERVICE } = config;
-  return axios.get(`${PROJECTS_SERVICE}/projects`, { timeout: 500 });
+  return axios.post(`${PROJECTS_SERVICE}/api/projects/_list`, postData, {
+    withCredentials: true,
+    timeout: 1000,
+  });
 };
 
 const deleteProjectById = (id) => {
@@ -54,14 +66,16 @@ const deleteProjectById = (id) => {
 
 const fetchFilterProjects = (filter) => (dispatch) => {
   dispatch(requestProjects());
-  return getProjects()
+  return getProjects(filter)
     .catch((err) => {
-      const filteredProjects = filterProjects(filter);
-      return {
-        isFiltering: filter.isFiltering,
-        page: filter.page,
-        projects: filteredProjects,
-      };
+      console.log('fetchFilterProjects catch()');
+
+      // const filteredProjects = filterProjects(filter);
+      // return {
+      //   isFiltering: filter.isFiltering,
+      //   page: filter.page,
+      //   projects: filteredProjects,
+      // };
     })
     .then((projects) => {
       dispatch(receiveProjects(projects));
@@ -72,16 +86,16 @@ const fetchDeleteProject = (id, filter) => (dispatch) => {
   dispatch(requestProjectDelete());
   return deleteProjectById()
     .catch((err) => {
-      deleteById(id);
-      const filteredProjects = filterProjects(filter);
-
-      return {
-        isFiltering: filter.isFiltering,
-        page: filter.page,
-        projects: filteredProjects,
-      };
+      // deleteById(id);
+      // const filteredProjects = filterProjects(filter);
+      //
+      // return {
+      //   isFiltering: filter.isFiltering,
+      //   page: filter.page,
+      //   projects: filteredProjects,
+      // };
       // Uncomment if need produce server exception
-      // return Promise.reject(new Error('Error while delete project with id ' + id));
+      return Promise.reject(new Error('Error while delete project with id ' + id));
     })
     .then((projects) => {
       dispatch(receiveDelete(projects));

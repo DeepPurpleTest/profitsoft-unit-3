@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Typography from 'components/Typography';
 import Button from 'components/Button';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import actionsProjects from '../actions/projects';
 import pagesURLs from 'constants/pagesURLs';
 import * as pages from 'constants/pages';
 import Link from 'components/Link';
 import Filter from '../components/Filter';
-import { getTotalFilteredPages, getTotalPages } from '../data';
-import { useSearchParams } from 'react-router-dom';
-import { filterSearch } from '../constants/filterSearch';
-import { Box } from '@mui/material';
+import {useSearchParams} from 'react-router-dom';
+import {filterSearch} from '../constants/filterSearch';
+import {Box} from '@mui/material';
 import Dialog from 'components/Dialog';
 import Card from 'components/Card';
-import { toast } from 'react-toastify';
-import { useIntl } from 'react-intl';
+import {toast} from 'react-toastify';
+import {useIntl} from 'react-intl';
 import IconButton from 'components/IconButton';
 import PageDown from 'components/icons/PageDown';
 import PageUp from 'components/icons/PageUp';
 import Delete from 'components/icons/Delete';
-import { createUseStyles } from 'react-jss';
+import {createUseStyles} from 'react-jss';
 import useTheme from 'misc/hooks/useTheme';
 
 const projectsPerPage = 5;
@@ -85,10 +84,9 @@ function Projects() {
   const currentPage = parseInt(filterParams.get(filterSearch.page) || '0', 10);
   const filter = {
     description: filterParams.get(filterSearch.description) || '',
-    name: filterParams.get(filterSearch.name) || '',
+    name: filterParams.get(filterSearch.name),
     page: filterParams.get(filterSearch.page),
     projectsPerPage,
-    totalPages: getTotalPages(projectsPerPage),
   };
 
   const {
@@ -97,6 +95,7 @@ function Projects() {
     isFetchingProjects,
     isFailedDelete,
     isSuccessDelete,
+    totalPages,
   } = useSelector(({ projects }) => projects);
 
   const notifySuccess = (message, action) => {
@@ -163,15 +162,15 @@ function Projects() {
                       pathname: link + '/' + project.id,
                     }}
                   >
-                    <Box sx={{ alignItems: 'center', display: 'flex' }}>
+                    <Box sx={{alignItems: 'center', display: 'flex'}}>
                       <div className={classes.project}>
                         <h2>{project.name}</h2>
-                        <p>{project.description}</p>
+                        <span>{project.description}</span>
                       </div>
                     </Box>
                   </Link>
                   <Dialog
-                    open={state.projectActionId === project.id}
+                      open={state.projectActionId === project.id}
                     onClose={() => {
                       setState({
                         projectActionId: null,
@@ -181,11 +180,11 @@ function Projects() {
                   >
                     <div className={classes.dialog}>
                       <Card>
-                        <p>
+                        <span>
                           {isFailedDelete
                             ? errorWhileDelete.message
                             : formatMessage({ id: 'dialog.text' })}
-                        </p>
+                        </span>
                       </Card>
                     </div>
                     <Button
@@ -251,12 +250,7 @@ function Projects() {
           </IconButton>
           <IconButton
             onClick={() => {
-              let maxPages = getTotalPages(projectsPerPage);
-              if (filter.name || filter.description) {
-                maxPages = getTotalFilteredPages(projectsPerPage, filter);
-              }
-
-              if (currentPage >= maxPages - 1) {
+              if (currentPage >= totalPages - 1) {
                 return;
               }
 
