@@ -48,7 +48,7 @@ function PageAccessValidator({
         });
       } else if (!hasAccess) {
         changePage({
-          pathname: `${pagesURLs[pages.projectsPage]}`,
+          pathname: `${pagesURLs[pages.defaultPage]}`,
         });
       } else {
         setState(prevState => ({

@@ -21,6 +21,7 @@ import MissedPage from '../components/MissedPage';
 import SearchParamsConfigurator from '../components/SearchParamsConfigurator';
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Default from "../../pages/default";
 
 function App() {
   const dispatch = useDispatch();
@@ -80,6 +81,10 @@ function App() {
                         path={`${pageURLs[pages.projectPage]}/:projectId`}
                     />
                     <Route
+                        element={<Default />}
+                        path={`${pageURLs[pages.defaultPage]}`}
+                    />
+                    <Route
                       element={<SecretPage />}
                       path={`${pageURLs[pages.secretPage]}`}
                     />
@@ -99,6 +104,8 @@ function App() {
                             email,
                             login,
                             password,
+                          }))}
+                          onGoogleSignIn={() => dispatch(actionsUser.fetchGoogleSignIn({
                           }))}
                           onSignUp={({
                             email,
@@ -120,7 +127,7 @@ function App() {
                     <Route
                       element={(
                         <MissedPage
-                          redirectPage={`${pageURLs[pages.projectsPage]}`}
+                          redirectPage={`${pageURLs[pages.defaultPage]}`}
                         />
                       )}
                       path="*"

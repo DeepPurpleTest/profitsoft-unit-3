@@ -75,9 +75,10 @@ const requestSignOut = () => ({
 
 const getUser = () => {
   const {
-    USERS_SERVICE,
+    PROJECTS_SERVICE,
   } = config;
-  return axios.get(`${USERS_SERVICE}/user/get`, { timeout: 10 });
+
+  return axios.get(`${PROJECTS_SERVICE}/api/profile`, { withCredentials: true, timeout: 100 });
 };
 
 const signIn = ({
@@ -96,6 +97,15 @@ const signIn = ({
       password,
     },
       { timeout: 10 });
+};
+
+const googleSignIn = () => {
+  const {
+    PROJECTS_SERVICE,
+  } = config;
+  return axios.get(
+      `${PROJECTS_SERVICE}/oauth/authenticate`,
+      { timeout: 10000 });
 };
 
 const signUp = ({
@@ -152,6 +162,14 @@ const fetchSignIn = ({
   }).catch((errors) => dispatch(errorSignIn(errors)));
 };
 
+const fetchGoogleSignIn = () => (dispatch) => {
+  const {
+    PROJECTS_SERVICE,
+  } = config;
+
+  window.location.href = `${PROJECTS_SERVICE}/oauth/authenticate`;
+}
+
 const fetchSignOut = () => (dispatch) => {
   storage.removeItem(keys.TOKEN);
   storage.removeItem(keys.TOKEN_EXPIRATION);
@@ -177,30 +195,50 @@ const fetchSignUp = ({
     .catch((errors) => dispatch(errorSignUp(errors)))
 };
 
+// const fetchUser = () => (dispatch) => {
+//   if (!storage.getItem(keys.TOKEN)) {
+//     return null;
+//   }
+//   dispatch(requestUser());
+//   return getUser()
+//     // TODO Mocked '.catch()' section
+//     .catch((err) => {
+//       const user = storage.getItem('USER');
+//
+//       if (user) {
+//         const parsedUser = JSON.parse(user);
+//         return parsedUser;
+//       }
+//
+//       return Promise.reject(err);
+//     })
+//     .then(user => dispatch(receiveUser(user)))
+//     .catch(() => dispatch(fetchSignOut()));
+// };
+
 const fetchUser = () => (dispatch) => {
-  if (!storage.getItem(keys.TOKEN)) {
-    return null;
-  }
   dispatch(requestUser());
+
+  console.log("FETCH USER");
+
   return getUser()
-    // TODO Mocked '.catch()' section
-    .catch((err) => {
-      const user = storage.getItem('USER');
-
-      if (user) {
-        const parsedUser = JSON.parse(user);
-        return parsedUser;
-      }
-
-      return Promise.reject(err);
-    })
-    .then(user => dispatch(receiveUser(user)))
-    .catch(() => dispatch(fetchSignOut()));
+      .catch((err) => {
+        return Promise.reject(err);
+      })
+      .then(user => {
+        console.log("THEN USER", user);
+        dispatch(receiveUser(user));
+      })
+      .catch(() => {
+        console.log("fetchUser CATCH");
+        dispatch(fetchSignOut());
+      });
 };
 
 const exportFunctions = {
   fetchRefreshToken,
   fetchSignIn,
+  fetchGoogleSignIn,
   fetchSignOut,
   fetchSignUp,
   fetchUser,

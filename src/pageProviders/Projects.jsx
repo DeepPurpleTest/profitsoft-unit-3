@@ -3,12 +3,18 @@ import ProjectsPage from 'pages/projects';
 
 
 import PageContainer from './components/PageContainer';
+import * as authorities from "../constants/authorities";
+import PageAccessValidator from "./components/PageAccessValidator";
 
 const Projects = (props) => {
     return (
-        <PageContainer>
-            <ProjectsPage {...props} />
-        </PageContainer>
+        <PageAccessValidator
+            neededAuthorities={[authorities.ENABLE_SEE_PROJECTS_PAGE]}
+        >
+            <PageContainer>
+                <ProjectsPage {...props} />
+            </PageContainer>
+        </PageAccessValidator>
     );
 };
 
