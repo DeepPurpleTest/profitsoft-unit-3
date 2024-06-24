@@ -79,6 +79,7 @@ function LeftNavBar() {
                 <div className={classes.menuHeaderSpace}/>
                 {filteredItems.map(menuItem => (
                     <Link
+                        key={menuItem.titleIntlId}
                         onClick={onClose}
                         to={{
                             pathname: menuItem.link,

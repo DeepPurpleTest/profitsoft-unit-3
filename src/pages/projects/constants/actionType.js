@@ -4,5 +4,6 @@ export const REQUEST_DELETE = 'REQUEST_DELETE';
 export const SUCCESS_RECEIVE = 'SUCCESS_RECEIVE';
 export const SUCCESS_DELETE = 'SUCCESS_DELETE';
 
+export const ERROR_FETCH = 'ERROR_FETCH';
 export const ERROR_DELETE = 'ERROR_DELETE';
 export const DROP_ERRORS = 'DROP_ERRORS';

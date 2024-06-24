@@ -1,6 +1,6 @@
 import {
   DROP_ERRORS,
-  ERROR_DELETE,
+  ERROR_DELETE, ERROR_FETCH,
   REQUEST_DELETE,
   REQUEST_PROJECTS,
   SUCCESS_DELETE,
@@ -13,6 +13,7 @@ const initialState = {
   errors: [],
   isFailedDelete: false,
   isFetchingProjects: false,
+  isFailedFetch: false,
   isSuccessDelete: false,
   projects: [],
   totalPages: 1,
@@ -26,6 +27,14 @@ export default function Reducer(state = initialState, action) {
         errorWhileDelete: action.payload,
         isFailedDelete: true,
       };
+    }
+
+    case ERROR_FETCH: {
+      return {
+        ...state,
+        isFailedFetch: true,
+        isFetchingProjects: false,
+      }
     }
 
     case DROP_ERRORS: {

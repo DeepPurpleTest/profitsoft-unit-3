@@ -3,7 +3,7 @@ import config from 'config';
 import { deleteById, filterProjects } from '../data';
 import {
   DROP_ERRORS,
-  ERROR_DELETE,
+  ERROR_DELETE, ERROR_FETCH,
   REQUEST_DELETE,
   REQUEST_PROJECTS,
   SUCCESS_DELETE,
@@ -34,6 +34,11 @@ const errorDeleteProject = (errors) => ({
   type: ERROR_DELETE,
 });
 
+const errorFetchProjects = (errors) => ({
+  payload: errors,
+  type: ERROR_FETCH,
+})
+
 const dropErrors = () => ({
   type: DROP_ERRORS,
 });
@@ -55,7 +60,7 @@ const getProjects = (filter) => {
   const { PROJECTS_SERVICE } = config;
   return axios.post(`${PROJECTS_SERVICE}/api/projects/_list`, postData, {
     withCredentials: true,
-    timeout: 1000,
+    timeout: 2000,
   });
 };
 
@@ -68,33 +73,21 @@ const fetchFilterProjects = (filter) => (dispatch) => {
   dispatch(requestProjects());
   return getProjects(filter)
     .catch((err) => {
-      console.log('fetchFilterProjects catch()');
-
-      // const filteredProjects = filterProjects(filter);
-      // return {
-      //   isFiltering: filter.isFiltering,
-      //   page: filter.page,
-      //   projects: filteredProjects,
-      // };
+      return Promise.reject(new Error('Error while fetching projects ' + err));
     })
     .then((projects) => {
       dispatch(receiveProjects(projects));
+    })
+    .catch((error) => {
+      dispatch(errorFetchProjects(error));
     });
+
 };
 
 const fetchDeleteProject = (id, filter) => (dispatch) => {
   dispatch(requestProjectDelete());
   return deleteProjectById()
     .catch((err) => {
-      // deleteById(id);
-      // const filteredProjects = filterProjects(filter);
-      //
-      // return {
-      //   isFiltering: filter.isFiltering,
-      //   page: filter.page,
-      //   projects: filteredProjects,
-      // };
-      // Uncomment if need produce server exception
       return Promise.reject(new Error('Error while delete project with id ' + id));
     })
     .then((projects) => {

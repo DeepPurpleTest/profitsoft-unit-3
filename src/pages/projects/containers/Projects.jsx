@@ -93,6 +93,7 @@ function Projects() {
     projects,
     errorWhileDelete,
     isFetchingProjects,
+    isFailedFetch,
     isFailedDelete,
     isSuccessDelete,
     totalPages,
@@ -130,6 +131,9 @@ function Projects() {
           </div>
         </div>
         {isFetchingProjects && <div>Loading....</div>}
+        {!isFetchingProjects && isFailedFetch && (
+            <section>Service is unavailable</section>
+        )}
         {!isFetchingProjects && (
           <section>
             {isSuccessDelete &&
