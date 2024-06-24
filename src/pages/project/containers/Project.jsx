@@ -15,7 +15,6 @@ import IconButton from 'components/IconButton';
 import Edit from 'components/icons/Edit';
 import { createUseStyles } from 'react-jss';
 import useTheme from 'misc/hooks/useTheme';
-import { findProjectById } from '../../projects/data';
 
 const link = `${pagesURLs[pages.projectsPage]}`;
 const getClasses = createUseStyles((theme) => ({
@@ -84,17 +83,12 @@ function Project() {
 
   useEffect(() => {
     if (projectId) {
-      const projectById = findProjectById(projectId);
-      if (!projectById) {
-        changePage({
-          pathname: `${pagesURLs[pages.projectsPage]}`,
-          replace: true,
-        });
-        return;
-      }
+      console.log('useEffect projectId', projectId)
 
       dispatch(actionsProject.fetchProject(projectId));
     } else {
+      console.log('useEffect else')
+
       setEditMode(true);
     }
 

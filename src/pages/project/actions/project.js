@@ -12,11 +12,6 @@ import {
   SUCCESS_RECEIVE,
   SUCCESS_UPDATE,
 } from '../constants/actionType';
-import {
-  addProject,
-  findProjectById,
-  updateProjectById,
-} from '../../projects/data';
 
 const receiveProject = (project) => ({
   payload: project,
@@ -69,44 +64,56 @@ const clearReduxData = () => ({
   type: CLEAR_DATA,
 });
 
-const getProject = (id) => {
+const getProject = async (id) => {
   const { PROJECTS_SERVICE } = config;
-  return axios.get(`${PROJECTS_SERVICE}/projects/` + id, { timeout: 1 });
+  return axios.get(`${PROJECTS_SERVICE}/api/projects/` + id, {
+    withCredentials: true,
+    timeout: 1000 });
 };
 
 const putProject = (project) => {
   const { PROJECTS_SERVICE } = config;
-  return axios.put(`${PROJECTS_SERVICE}/projects/` + project.id, null, {
-    timeout: 1,
+  return axios.put(`${PROJECTS_SERVICE}/api/projects/` + project.id, project, {
+    withCredentials: true,
+    timeout: 1000,
   });
 };
 
 const postProject = (project) => {
   const { PROJECTS_SERVICE } = config;
-  return axios.post(`${PROJECTS_SERVICE}/projects`, project, { timeout: 10 });
+
+  console.log(project);
+  return axios.post(`${PROJECTS_SERVICE}/api/projects`, project, {
+    withCredentials: true,
+    timeout: 1000 });
 };
 
 const fetchProject = (id) => (dispatch) => {
+  console.log('fetchProject with id', id);
   dispatch(requestProject());
-  return getProject()
+  return getProject(id)
     .catch((err) => {
-      const parsedId = parseInt(id);
-      return findProjectById(parsedId);
+      console.log('getProject(id) catch(err)');
+
+      return Promise.reject(new Error('Error while fetching project with id ' + id));
     })
     .then((project) => {
+      console.log('getProject(id) then(project) ', project);
+
       dispatch(receiveProject(project));
     });
 };
 
 const fetchUpdate = (project) => (dispatch) => {
+  console.log('fetchUpdate(project) ', project)
+
   dispatch(requestProjectUpdate(project));
   return putProject(project)
     .catch((err) => {
-      updateProjectById(project.id, project);
-      return project;
+      console.log('fetchUpdate(project) catch(err) Project ', project)
+      console.log('fetchUpdate(project) catch(err) Error ', err)
 
-      // Uncomment if need produce server exception
-      // return Promise.reject(new Error('Error while updating project with id ' + project.id));
+      return Promise.reject(new Error('Error while updating project with id ' + project.id));
     })
     .then((project) => {
       dispatch(receiveUpdate(project));
@@ -120,14 +127,24 @@ const fetchCreate = (project) => (dispatch) => {
   dispatch(requestProjectCreate(project));
   return postProject(project)
     .catch((err) => {
-      const createdProject = addProject(project);
-      return createdProject;
+      return Promise.reject(new Error('Error while creating project'));
+    })
+    .then((id) => {
+      console.log('ID', id);
 
-      // Uncomment if need produce server exception
-      // return Promise.reject(new Error('Error while creating project'));
+
+      console.log('PROJECT BEFORE dispatch', project);
+      dispatch(receiveCreate(project));
+
+      dispatch(requestProject());
+      project = getProject(id);
+      console.log('PROJECT AFTER dispatch', project);
+
+      return project;
     })
     .then((project) => {
-      dispatch(receiveCreate(project));
+      console.log('RECEIVE PROJECT ', project);
+      dispatch(receiveProject(project));
     })
     .catch((error) => {
       dispatch(errorCreateProject(error));

@@ -1,15 +1,15 @@
 import axios from 'misc/requests';
 import config from 'config';
-import { deleteById, filterProjects } from '../data';
 import {
   DROP_ERRORS,
-  ERROR_DELETE, ERROR_FETCH,
+  ERROR_DELETE,
+  ERROR_FETCH,
   REQUEST_DELETE,
   REQUEST_PROJECTS,
   SUCCESS_DELETE,
   SUCCESS_RECEIVE,
 } from '../constants/actionType';
-import { DROP_SUCCESS } from '../../project/constants/actionType';
+import {DROP_SUCCESS} from '../../project/constants/actionType';
 
 const receiveProjects = (projects) => ({
   payload: projects,
@@ -60,13 +60,13 @@ const getProjects = (filter) => {
   const { PROJECTS_SERVICE } = config;
   return axios.post(`${PROJECTS_SERVICE}/api/projects/_list`, postData, {
     withCredentials: true,
-    timeout: 2000,
+    timeout: 1000,
   });
 };
 
 const deleteProjectById = (id) => {
   const { PROJECTS_SERVICE } = config;
-  return axios.delete(`${PROJECTS_SERVICE}/projects` + id, { timeout: 10 });
+  return axios.delete(`${PROJECTS_SERVICE}/projects` + id, { timeout: 1000 });
 };
 
 const fetchFilterProjects = (filter) => (dispatch) => {
@@ -76,6 +76,8 @@ const fetchFilterProjects = (filter) => (dispatch) => {
       return Promise.reject(new Error('Error while fetching projects ' + err));
     })
     .then((projects) => {
+      console.log('PROJECTS ', projects);
+
       dispatch(receiveProjects(projects));
     })
     .catch((error) => {
