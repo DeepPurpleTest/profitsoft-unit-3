@@ -99,15 +99,6 @@ const signIn = ({
       { timeout: 10 });
 };
 
-const googleSignIn = () => {
-  const {
-    PROJECTS_SERVICE,
-  } = config;
-  return axios.get(
-      `${PROJECTS_SERVICE}/oauth/authenticate`,
-      { timeout: 10000 });
-};
-
 const signUp = ({
   email,
   firstName,
@@ -171,10 +162,15 @@ const fetchGoogleSignIn = () => (dispatch) => {
 }
 
 const fetchSignOut = () => (dispatch) => {
-  storage.removeItem(keys.TOKEN);
-  storage.removeItem(keys.TOKEN_EXPIRATION);
-  storage.removeItem('USER'); // TODO: Mocked code
-  dispatch(requestSignOut());
+  const {
+    PROJECTS_SERVICE,
+  } = config;
+
+  axios.delete(`${PROJECTS_SERVICE}/api/logout`, {
+    withCredentials: true,
+    timeout: 1000
+  })
+  .then(dispatch(requestSignOut()));
 };
 
 const fetchSignUp = ({
@@ -195,43 +191,18 @@ const fetchSignUp = ({
     .catch((errors) => dispatch(errorSignUp(errors)))
 };
 
-// const fetchUser = () => (dispatch) => {
-//   if (!storage.getItem(keys.TOKEN)) {
-//     return null;
-//   }
-//   dispatch(requestUser());
-//   return getUser()
-//     // TODO Mocked '.catch()' section
-//     .catch((err) => {
-//       const user = storage.getItem('USER');
-//
-//       if (user) {
-//         const parsedUser = JSON.parse(user);
-//         return parsedUser;
-//       }
-//
-//       return Promise.reject(err);
-//     })
-//     .then(user => dispatch(receiveUser(user)))
-//     .catch(() => dispatch(fetchSignOut()));
-// };
-
 const fetchUser = () => (dispatch) => {
   dispatch(requestUser());
-
-  console.log("FETCH USER");
 
   return getUser()
       .catch((err) => {
         return Promise.reject(err);
       })
       .then(user => {
-        console.log("THEN USER", user);
         dispatch(receiveUser(user));
       })
       .catch(() => {
-        console.log("fetchUser CATCH");
-        dispatch(fetchSignOut());
+        dispatch(requestSignOut());
       });
 };
 
