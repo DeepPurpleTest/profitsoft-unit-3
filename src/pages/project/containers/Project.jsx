@@ -83,12 +83,8 @@ function Project() {
 
   useEffect(() => {
     if (projectId) {
-      console.log('useEffect projectId', projectId)
-
       dispatch(actionsProject.fetchProject(projectId));
     } else {
-      console.log('useEffect else')
-
       setEditMode(true);
     }
 
@@ -116,7 +112,7 @@ function Project() {
           dispatch(actionsProject.dropErrors());
         })}
 
-      {isSuccessCreate &&
+      {isSuccessCreate && id &&
         notifySuccess(formatMessage({id: 'success.created'}), () => {
           setEditMode(false);
           changePage({

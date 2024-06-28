@@ -82,37 +82,26 @@ const putProject = (project) => {
 const postProject = (project) => {
   const { PROJECTS_SERVICE } = config;
 
-  console.log(project);
   return axios.post(`${PROJECTS_SERVICE}/api/projects`, project, {
     withCredentials: true,
     timeout: 1000 });
 };
 
 const fetchProject = (id) => (dispatch) => {
-  console.log('fetchProject with id', id);
   dispatch(requestProject());
   return getProject(id)
     .catch((err) => {
-      console.log('getProject(id) catch(err)');
-
       return Promise.reject(new Error('Error while fetching project with id ' + id));
     })
     .then((project) => {
-      console.log('getProject(id) then(project) ', project);
-
       dispatch(receiveProject(project));
     });
 };
 
 const fetchUpdate = (project) => (dispatch) => {
-  console.log('fetchUpdate(project) ', project)
-
   dispatch(requestProjectUpdate(project));
   return putProject(project)
     .catch((err) => {
-      console.log('fetchUpdate(project) catch(err) Project ', project)
-      console.log('fetchUpdate(project) catch(err) Error ', err)
-
       return Promise.reject(new Error('Error while updating project with id ' + project.id));
     })
     .then((project) => {
@@ -130,20 +119,14 @@ const fetchCreate = (project) => (dispatch) => {
       return Promise.reject(new Error('Error while creating project'));
     })
     .then((id) => {
-      console.log('ID', id);
-
-
-      console.log('PROJECT BEFORE dispatch', project);
-      dispatch(receiveCreate(project));
-
       dispatch(requestProject());
-      project = getProject(id);
-      console.log('PROJECT AFTER dispatch', project);
+      const createdProject = getProject(id);
 
-      return project;
+      dispatch(receiveCreate(createdProject));
+
+      return createdProject;
     })
     .then((project) => {
-      console.log('RECEIVE PROJECT ', project);
       dispatch(receiveProject(project));
     })
     .catch((error) => {

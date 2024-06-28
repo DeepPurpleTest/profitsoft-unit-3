@@ -78,8 +78,6 @@ const fetchFilterProjects = (filter) => (dispatch) => {
       return Promise.reject(new Error('Error while fetching projects ' + err));
     })
     .then((projects) => {
-      console.log('PROJECTS ', projects);
-
       dispatch(receiveProjects(projects));
     })
     .catch((error) => {
