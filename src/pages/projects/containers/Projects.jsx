@@ -83,7 +83,6 @@ function Projects() {
 
   const currentPage = parseInt(filterParams.get(filterSearch.page) || '0', 10);
   const filter = {
-    description: filterParams.get(filterSearch.description) || '',
     name: filterParams.get(filterSearch.name),
     page: filterParams.get(filterSearch.page),
     projectsPerPage,
@@ -210,7 +209,6 @@ function Projects() {
                           page: 0,
                           lang: filterParams.get(filterSearch.lang),
                           name: filterParams.get(filterSearch.name),
-                          description: filterParams.get(filterSearch.description),
                         }));
                       }}
                     >
@@ -246,7 +244,6 @@ function Projects() {
                 page: currentPage - 1,
                 lang: filterParams.get(filterSearch.lang),
                 name: filterParams.get(filterSearch.name),
-                description: filterParams.get(filterSearch.description),
               }));
             }}
           >
@@ -263,7 +260,6 @@ function Projects() {
                 page: currentPage + 1,
                 lang: filterParams.get(filterSearch.lang),
                 name: filterParams.get(filterSearch.name),
-                description: filterParams.get(filterSearch.description),
               }));
             }}
           >

@@ -6,7 +6,6 @@ const paramsSearch = {
   lang: 'lang',
   page: 'page',
   name: 'name',
-  description: 'description',
 };
 
 export const DEFAULT_LOCATION_SEARCH = {
@@ -35,11 +34,6 @@ function SearchParamsConfigurator() {
 
     if (!updatedParams.has(paramsSearch.name)) {
       updatedParams.set(paramsSearch.name, '');
-      isSearchParamsUpdated = true;
-    }
-
-    if (!updatedParams.has(paramsSearch.description)) {
-      updatedParams.set(paramsSearch.description, '');
       isSearchParamsUpdated = true;
     }
 

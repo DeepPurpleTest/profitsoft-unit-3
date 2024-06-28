@@ -12,7 +12,6 @@ function Filter({ projectsPerPage }) {
   const { formatMessage } = useIntl();
   const [filterParams, setFilterParams] = useSearchParams();
   const [filter, setFilter] = useState({
-    description: filterParams.get(filterSearch.description),
     name: filterParams.get(filterSearch.name),
     page: 0,
     projectsPerPage: projectsPerPage,
@@ -25,20 +24,12 @@ function Filter({ projectsPerPage }) {
     });
   }
 
-  function handleDescriptionChange(event) {
-    setFilter({
-      ...filter,
-      description: event.target.value,
-    });
-  }
-
   function handleFiltrate() {
     dispatch(actionsProjects.fetchFilterProjects(filter));
 
     const updatedParams = new URLSearchParams(filterParams);
     updatedParams.set(filterSearch.page, filter.page);
     updatedParams.set(filterSearch.name, filter.name);
-    updatedParams.set(filterSearch.description, filter.description);
     setFilterParams(updatedParams, { replace: true });
   }
 
@@ -48,11 +39,6 @@ function Filter({ projectsPerPage }) {
         onChange={handleNameChange}
         value={filter.name}
         label={formatMessage({ id: 'filter.name' })}
-      />
-      <TextField
-        onChange={handleDescriptionChange}
-        value={filter.description}
-        label={formatMessage({ id: 'filter.description' })}
       />
       <Button onClick={handleFiltrate}>
         {formatMessage({ id: 'btn.filtrate' })}
