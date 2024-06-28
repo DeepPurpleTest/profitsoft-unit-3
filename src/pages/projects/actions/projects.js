@@ -66,7 +66,9 @@ const getProjects = (filter) => {
 
 const deleteProjectById = (id) => {
   const { PROJECTS_SERVICE } = config;
-  return axios.delete(`${PROJECTS_SERVICE}/projects` + id, { timeout: 1000 });
+  return axios.delete(`${PROJECTS_SERVICE}/api/projects/` + id, {
+    withCredentials: true,
+    timeout: 1000 });
 };
 
 const fetchFilterProjects = (filter) => (dispatch) => {
@@ -88,12 +90,16 @@ const fetchFilterProjects = (filter) => (dispatch) => {
 
 const fetchDeleteProject = (id, filter) => (dispatch) => {
   dispatch(requestProjectDelete());
-  return deleteProjectById()
+  return deleteProjectById(id)
     .catch((err) => {
       return Promise.reject(new Error('Error while delete project with id ' + id));
     })
+    .then(() => {
+      dispatch(requestProjects());
+      return getProjects(filter)
+    })
     .then((projects) => {
-      dispatch(receiveDelete(projects));
+      dispatch(receiveProjects(projects));
     })
     .catch((error) => {
       dispatch(errorDeleteProject(error));

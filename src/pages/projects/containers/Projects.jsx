@@ -195,9 +195,6 @@ function Projects() {
                         dispatch(
                           actionsProjects.fetchDeleteProject(
                             state.projectActionId, {
-                              description: filterParams.get(
-                                filterSearch.description
-                              ),
                               name: filterParams.get(filterSearch.name),
                               page: 0,
                               projectsPerPage: projectsPerPage,
