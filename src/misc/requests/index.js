@@ -9,6 +9,11 @@ axios.interceptors.request.use((params) => {
   return params;
 });
 
+axios.interceptors.request.use((params) => ({
+  ...params,
+  withCredentials: true,
+}));
+
 const addAxiosInterceptors = ({
   onSignOut,
 }) => {

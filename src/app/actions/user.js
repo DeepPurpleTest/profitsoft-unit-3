@@ -121,10 +121,6 @@ const signUp = ({
       { timeout: 10 });
 };
 
-const fetchRefreshToken = () => (dispatch) => {
-
-};
-
 const fetchSignIn = ({
   email,
   login,
@@ -191,9 +187,10 @@ const fetchSignUp = ({
     .catch((errors) => dispatch(errorSignUp(errors)))
 };
 
-const fetchUser = () => (dispatch) => {
+const fetchUser = () => async (dispatch) => {
   dispatch(requestUser());
 
+  await setTimeout(() => {}, 1000);
   return getUser()
       .catch((err) => {
         return Promise.reject(err);
@@ -207,7 +204,6 @@ const fetchUser = () => (dispatch) => {
 };
 
 const exportFunctions = {
-  fetchRefreshToken,
   fetchSignIn,
   fetchGoogleSignIn,
   fetchSignOut,
