@@ -78,7 +78,7 @@ const getUser = () => {
     PROJECTS_SERVICE,
   } = config;
 
-  return axios.get(`${PROJECTS_SERVICE}/api/profile`, { withCredentials: true, timeout: 100 });
+  return axios.get(`${PROJECTS_SERVICE}/api/profile`, { withCredentials: true, timeout: 2000 });
 };
 
 const signIn = ({
@@ -190,7 +190,6 @@ const fetchSignUp = ({
 const fetchUser = () => async (dispatch) => {
   dispatch(requestUser());
 
-  await setTimeout(() => {}, 1000);
   return getUser()
       .catch((err) => {
         return Promise.reject(err);
