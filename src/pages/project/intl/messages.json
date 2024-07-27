@@ -1,0 +1,17 @@
+{
+  "title.details": "Project details page",
+  "title.editing": "Project editing page",
+  "project.name": "Name",
+  "project.description": "Description",
+  "project.members": "Members",
+  "btn.back": "Back",
+  "field.name": "Project name",
+  "field.description": "Project description",
+  "btn.cancel": "Cancel",
+  "create.error.EMPTY_CREATE_NAME": "Name is required",
+  "create.error.EMPTY_CREATE_DESCRIPTION": "Description is required",
+  "success.created": "Project created!",
+  "success.updated": "Project updated!",
+  "btn.save": "Save",
+  "btn.create": "Create"
+}

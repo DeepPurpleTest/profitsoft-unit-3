@@ -64,6 +64,7 @@ function Login({
   isFetchingSignIn,
   isFetchingSignUp,
   onSignIn,
+  onGoogleSignIn,
   onSignUp,
 }) {
   const { formatMessage } = useIntl();
@@ -218,6 +219,21 @@ function Login({
               </strong>
             </Typography>
           </Button>
+
+          <Button
+              isLoading={isFetchingSignIn}
+              onClick={() => {
+                onGoogleSignIn();
+              }}
+              variant="primary"
+          >
+            <Typography color="inherit">
+              <strong>
+                {formatMessage({ id: 'Sign in with Google' })}
+              </strong>
+            </Typography>
+          </Button>
+
         </div>
       </div>
       <Dialog

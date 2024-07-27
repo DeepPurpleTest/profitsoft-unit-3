@@ -37,12 +37,14 @@ const Typography = ({
   noWrap = false,
   variant = variants.default,
   wordBreak = 'normal',
+  component = 'div',
 }) => {
   const { theme } = useTheme();
   return (
     <TypographyMUI
       align={align}
       noWrap={noWrap}
+      component={component}
       sx={{
         ...theme.typography.variants[variant],
         textTransform: capitalize && 'capitalize',

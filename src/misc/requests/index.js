@@ -9,17 +9,17 @@ axios.interceptors.request.use((params) => {
   return params;
 });
 
+axios.interceptors.request.use((params) => ({
+  ...params,
+  withCredentials: true,
+}));
+
 const addAxiosInterceptors = ({
   onSignOut,
 }) => {
   axios.interceptors.response.use(
     (response) => response.data,
     (error) => {
-      if (error.response.data
-        .some(beError => beError?.code === 'INVALID_TOKEN')
-      ) {
-        onSignOut();
-      }
       throw error.response.data;
     }
   );

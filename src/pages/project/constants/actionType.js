@@ -1,0 +1,14 @@
+export const REQUEST_PROJECT = 'REQUEST_PROJECT';
+export const REQUEST_UPDATE = 'REQUEST_UPDATE';
+export const REQUEST_CREATE = 'REQUEST_CREATE';
+
+export const SUCCESS_RECEIVE = 'SUCCESS_RECEIVE';
+export const SUCCESS_CREATE = 'SUCCESS_CREATE';
+export const SUCCESS_UPDATE = 'SUCCESS_UPDATE';
+
+export const CLEAR_DATA = 'CLEAR_DATA';
+
+export const ERROR_UPDATE = 'ERROR_UPDATE';
+
+export const DROP_ERRORS = 'DROP_ERRORS';
+export const DROP_SUCCESS = 'DROP_SUCCESS';
